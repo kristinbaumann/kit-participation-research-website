@@ -1,20 +1,44 @@
-console.log("Test from script embed");
+console.log("Vis embedding script loaded.");
 
-const newDiv = document.createElement("div");
-newDiv.style.padding = "20px";
-newDiv.style.marginBottom = "20px";
-newDiv.style.border = "2px solid #000";
-newDiv.style.gridColumn = "span 12";
-newDiv.style.width = "auto";
-newDiv.style.maxWidth = "100%";
-newDiv.innerText = "Container for matrix visualization";
+import { html, renderComponent } from "./js/preact-htm.js";
+import Matrix from "./js/Matrix.js";
 
 // Insert after a specified number of children
-const afterChildren = 1;
-const mainElement = document.querySelector("#main_content .content");
-const targetChild = mainElement.children[afterChildren];
-if (targetChild) {
-  mainElement.insertBefore(newDiv, targetChild);
-} else {
-  mainElement.appendChild(newDiv);
+function insertContainerInPage() {
+  const containerDiv = createContainerDiv();
+  const afterChildren = 1;
+  const mainElement = document.querySelector("#main_content .content");
+  const targetChild = mainElement.children[afterChildren];
+  if (targetChild) {
+    mainElement.insertBefore(containerDiv, targetChild);
+  } else {
+    mainElement.appendChild(containerDiv);
+  }
 }
+
+function createContainerDiv() {
+  const containerDiv = document.createElement("div");
+  containerDiv.id = "matrix_visualization_container";
+  containerDiv.style.marginBottom = "20px";
+  containerDiv.style.border = "1px solid #000";
+  containerDiv.style.width = "auto";
+  containerDiv.style.maxWidth = "100%";
+  return containerDiv;
+}
+
+function renderVis() {
+  const containerElement = document.getElementById(
+    "matrix_visualization_container"
+  );
+  if (containerElement) {
+    console.log("Rendering Matrix visualization...");
+    renderComponent(html`<${Matrix} />`, containerElement);
+  } else {
+    console.error(
+      `Could not find container element for vis with id "matrix_visualization_container"`
+    );
+  }
+}
+
+insertContainerInPage();
+renderVis();
