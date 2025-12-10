@@ -10,6 +10,7 @@ export default function Matrix() {
   const [data, setData] = useState(null);
   const [level1, setLevel1] = useState(null);
   const [level2, setLevel2] = useState(null);
+  const [level3, setLevel3] = useState(null);
 
   useEffect(() => {
     d3.dsv(";", BASE_URL + "/data/matrix_data_221121.csv").then((data) => {
@@ -63,6 +64,19 @@ export default function Matrix() {
     : null;
   console.log("Filtered level 2 options:", level2Options);
 
+  const level3Key = "impact";
+  const level3Options =
+    level1 && level2
+      ? Array.from(
+          new Set(
+            data
+              .filter((d) => d[level1Key] === level1 && d[level2Key] === level2)
+              .map((d) => d[level3Key])
+          )
+        )
+      : null;
+  console.log("Filtered level 3 options:", level3Options);
+
   return html`<div style="font-family: Roboto; padding: 10px;">
     <p>Matrix with ${data.length} rows</p>
     <div style="display: flex; gap: 28px; flex-wrap: wrap; width: 100%;">
@@ -92,6 +106,23 @@ export default function Matrix() {
               color=${colors[level1]}
               active=${level2 === option}
               onClick=${() => setLevel2(option)}
+            />
+          `
+      )}
+    </div>
+    <div
+      style="display: flex; gap: 28px; flex-wrap: wrap; width: 60%; margin: 20px auto 0 auto;"
+    >
+      ${level3Options &&
+      level3Options.map(
+        (option) =>
+          html`
+            <${Box}
+              type="${level3Key}"
+              item=${option}
+              color=${colors[level1]}
+              active=${level3 === option}
+              onClick=${() => setLevel3(option)}
             />
           `
       )}
