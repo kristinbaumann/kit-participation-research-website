@@ -11,6 +11,7 @@ export default function Matrix() {
   const [level1, setLevel1] = useState(null);
   const [level2, setLevel2] = useState(null);
   const [level3, setLevel3] = useState(null);
+  const [level4, setLevel4] = useState(null);
 
   useEffect(() => {
     d3.dsv(";", BASE_URL + "/data/matrix_data_221121.csv").then((data) => {
@@ -41,7 +42,18 @@ export default function Matrix() {
   console.log("Matrix data loaded:", data);
   useEffect(() => {
     setLevel2(null);
+    setLevel3(null);
+    setLevel4(null);
   }, [level1]);
+
+  useEffect(() => {
+    setLevel3(null);
+    setLevel4(null);
+  }, [level2]);
+
+  useEffect(() => {
+    setLevel4(null);
+  }, [level3]);
 
   // get unique level 1 options from data as "stakeholder"
   const level1Key = "stakeholder";
@@ -77,6 +89,24 @@ export default function Matrix() {
       : null;
   console.log("Filtered level 3 options:", level3Options);
 
+  const level4Key = "impactIndicators";
+  const level4Options =
+    level1 && level2 && level3
+      ? Array.from(
+          new Set(
+            data
+              .filter(
+                (d) =>
+                  d[level1Key] === level1 &&
+                  d[level2Key] === level2 &&
+                  d[level3Key] === level3
+              )
+              .map((d) => d[level4Key])
+          )
+        )
+      : null;
+  console.log("Filtered level 4 options:", level4Options);
+
   return html`<div style="font-family: Roboto; padding: 10px;">
     <p>Matrix with ${data.length} rows</p>
     <div style="display: flex; gap: 28px; flex-wrap: wrap; width: 100%;">
@@ -111,7 +141,7 @@ export default function Matrix() {
       )}
     </div>
     <div
-      style="display: flex; gap: 28px; flex-wrap: wrap; width: 60%; margin: 20px auto 0 auto;"
+      style="display: flex; gap: 28px; flex-wrap: wrap; width: 60%; margin: 20px auto 20px auto;"
     >
       ${level3Options &&
       level3Options.map(
@@ -127,10 +157,48 @@ export default function Matrix() {
           `
       )}
     </div>
+    <div style=" display: flex; flex-direction: row; gap: 12px;">
+      ${level4Options &&
+      level4Options.length > 0 &&
+      html` <div>
+        <p style="text-transform: uppercase; margin: 0;">Indicators</p>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          ${level4Options &&
+          level4Options.map(
+            (option) =>
+              html`
+                <${Box}
+                  type="${level4Key}"
+                  item=${option}
+                  color=${colors[level1]}
+                  active=${level4 === option}
+                  onClick=${() => setLevel4(option)}
+                  withIllustration=${false}
+                  withTypeLabel=${false}
+                />
+              `
+          )}
+        </div>
+      </div>`}
+      ${level4 &&
+      html`<div
+        style="background-color: ${colors[level1]}; padding: 20px; width: 100%;"
+      >
+        Level 4 Details
+      </div>`}
+    </div>
   </div>`;
 }
 
-function Box({ type, item, color, active, onClick }) {
+function Box({
+  type,
+  item,
+  color,
+  active,
+  onClick,
+  withIllustration = true,
+  withTypeLabel = true,
+}) {
   const [state, setState] = useState(active ? "active_hover" : "default");
 
   const formattedType = type.toLowerCase().replace(/\s+/g, "_");
@@ -160,7 +228,8 @@ function Box({ type, item, color, active, onClick }) {
       }
     }}
   >
-    <p style="text-transform: uppercase; margin: 0;">${type}</p>
+    ${withTypeLabel &&
+    html`<p style="text-transform: uppercase; margin: 0;">${type}</p>`}
     <div
       style="border: 1px solid black; padding: 10px; background-color: ${color}; position: relative; cursor: pointer; transition: all 0.3s ease; ${active
         ? ""
@@ -170,10 +239,11 @@ function Box({ type, item, color, active, onClick }) {
       <span style="font-size: 19px; font-weight: bold; padding-right: 80px;"
         >${item}</span
       >
-      <img
+      ${withIllustration &&
+      html`<img
         src="${BASE_URL}/illustrations/${imageFileName}"
         style="position: absolute; right:6px; bottom:0; transition: all 0.3s ease;"
-      />
+      />`}
     </div>
   </div>`;
 }
