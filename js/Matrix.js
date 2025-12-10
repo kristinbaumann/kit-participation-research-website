@@ -9,6 +9,7 @@ const rawColors = ["#80C3B5", "#ACDFF4", "#D3C096"];
 export default function Matrix() {
   const [data, setData] = useState(null);
   const [level1, setLevel1] = useState(null);
+  const [level2, setLevel2] = useState(null);
 
   useEffect(() => {
     d3.dsv(";", BASE_URL + "/data/matrix_data_221121.csv").then((data) => {
@@ -37,6 +38,9 @@ export default function Matrix() {
   }
 
   console.log("Matrix data loaded:", data);
+  useEffect(() => {
+    setLevel2(null);
+  }, [level1]);
 
   // get unique level 1 options from data as "stakeholder"
   const level1Key = "stakeholder";
@@ -48,6 +52,16 @@ export default function Matrix() {
     }),
     {}
   );
+
+  const level2Key = "impactLevel";
+  const level2Options = level1
+    ? Array.from(
+        new Set(
+          data.filter((d) => d[level1Key] === level1).map((d) => d[level2Key])
+        )
+      )
+    : null;
+  console.log("Filtered level 2 options:", level2Options);
 
   return html`<div style="font-family: Roboto; padding: 10px;">
     <p>Matrix with ${data.length} rows</p>
@@ -65,15 +79,44 @@ export default function Matrix() {
           `
       )}
     </div>
+    <div
+      style="display: flex; gap: 28px; flex-wrap: wrap; width: 80%; margin: 20px auto 0 auto;"
+    >
+      ${level2Options &&
+      level2Options.map(
+        (option) =>
+          html`
+            <${Box}
+              type="${level2Key.replace("impactLevel", "impact level")}"
+              item=${option}
+              color=${colors[level1]}
+              active=${level2 === option}
+              onClick=${() => setLevel2(option)}
+            />
+          `
+      )}
+    </div>
   </div>`;
 }
 
 function Box({ type, item, color, active, onClick }) {
   const [state, setState] = useState(active ? "active_hover" : "default");
 
-  const imageFileName = `${type.toLowerCase()}_${item
+  const formattedType = type.toLowerCase().replace(/\s+/g, "_");
+  // .replace("impactlevel", "impact_level");
+  let formattedItem = item
     .toLowerCase()
-    .replace(/\s+/g, "_")}_${state}.svg`;
+    .replace(/\([^)]*\)/g, "")
+    .replace(/\s+/g, "_");
+  if (formattedItem.endsWith("_")) {
+    formattedItem = formattedItem.slice(0, -1);
+  }
+  const imageFileName = `${formattedType}_${formattedItem}_${state}.svg`;
+
+  useEffect(() => {
+    setState(active ? "active_hover" : "default");
+  }, [active]);
+
   return html`<div
     class="box"
     style="flex-grow: 1;"
@@ -81,7 +124,9 @@ function Box({ type, item, color, active, onClick }) {
       setState("active_hover");
     }}
     onMouseLeave=${() => {
-      setState("default");
+      if (!active) {
+        setState("default");
+      }
     }}
   >
     <p style="text-transform: uppercase; margin: 0;">${type}</p>
