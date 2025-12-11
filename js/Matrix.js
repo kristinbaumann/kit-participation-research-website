@@ -118,27 +118,38 @@ export default function Matrix() {
 
   return html`<div style="font-family: Roboto; padding: 10px;">
     <style>
-      .box .box-content {
-        opacity: 0.6;
-      }
-      .box:hover .box-content {
-        opacity: 0.8;
-      }
-      @media (max-width: 768px) {
-        .box span {
-          padding-right: 0px !important;
+      #matrix_visualization_container {
+        .box .box-content {
+          opacity: 0.6;
         }
-        .box img {
-          height: 40px;
+        .label {
+          text-transform: uppercase;
+          font-size: 15px;
+          margin: 0;
         }
-        .level2 {
-          width: 95% !important;
+        .box:hover .box-content {
+          opacity: 0.8;
         }
-        .level3 {
-          width: 90% !important;
-        }
-        .level4 {
-          width: 85% !important;
+        @media (max-width: 768px) {
+          .box span {
+            padding-right: 0px !important;
+            font-size: 15px !important;
+          }
+          .box img {
+            height: 40px;
+          }
+          .label {
+            font-size: 13px !important;
+          }
+          .level2 {
+            width: 95% !important;
+          }
+          .level3 {
+            width: 90% !important;
+          }
+          .level4 {
+            width: 85% !important;
+          }
         }
       }
     </style>
@@ -202,9 +213,7 @@ export default function Matrix() {
       ${level4Options &&
       level4Options.length > 0 &&
       html`<div style="flex: 1;">
-        <p style="text-transform: uppercase; margin: 0;font-size: 15px;">
-          Indicators
-        </p>
+        <p class="label">Indicators</p>
         <div style="display: flex; flex-direction: column; gap: 12px;">
           ${level4Options &&
           level4Options.map(
@@ -229,9 +238,7 @@ export default function Matrix() {
               level1
             ]}; padding: 20px; margin-top: 21px;"
           >
-            <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
-              Indicator (In detail)
-            </p>
+            <p class="label">Indicator (In detail)</p>
             <p
               style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; margin-bottom: 18px;"
             >
@@ -242,33 +249,25 @@ export default function Matrix() {
             >
               ${detailItem.impactDescription.replaceAll("<br>", " ")}
             </p>
-            <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
-              Stakeholder
-            </p>
+            <p class="label">Stakeholder</p>
             <p
               style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.stakeholder}
             </p>
-            <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
-              Impact Level
-            </p>
+            <p class="label">Impact Level</p>
             <p
               style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.impactLevel}
             </p>
-            <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
-              Impact
-            </p>
+            <p class="label">Impact</p>
             <p
               style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.impact}
             </p>
-            <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
-              Impact Source
-            </p>
+            <p class="label">Impact Source</p>
             <p
               style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; margin-bottom:0; padding-bottom: 18px; border-bottom: 1px solid black;"
             >
