@@ -194,7 +194,7 @@ export default function Matrix() {
         ? html`<div
             style="flex: 1; background-color: ${colors[
               level1
-            ]}; padding: 20px; margin-top: 18px;"
+            ]}; padding: 20px; margin-top: 21px;"
           >
             <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
               Indicator (In detail)
@@ -205,7 +205,7 @@ export default function Matrix() {
               ${detailItem.impactIndicator}
             </p>
             <p
-              style="font-weight: bold; font-size: 19px; line-height: 1.25; padding-bottom: 18px; border-bottom: 1px solid black;"
+              style="font-weight: bold; font-size: 19px; line-height: 1.25; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.impactDescription.replaceAll("<br>", " ")}
             </p>
@@ -213,7 +213,7 @@ export default function Matrix() {
               Stakeholder
             </p>
             <p
-              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; border-bottom: 1px solid black;"
+              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.stakeholder}
             </p>
@@ -221,7 +221,7 @@ export default function Matrix() {
               Impact Level
             </p>
             <p
-              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; border-bottom: 1px solid black;"
+              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.impactLevel}
             </p>
@@ -229,7 +229,7 @@ export default function Matrix() {
               Impact
             </p>
             <p
-              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; border-bottom: 1px solid black;"
+              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.impact}
             </p>
@@ -292,7 +292,9 @@ function Box({
     }}
   >
     ${withTypeLabel &&
-    html`<p style="text-transform: uppercase; margin: 0;">${type}</p>`}
+    html`<p style="text-transform: uppercase; margin: 0;font-size: 15px;">
+      ${type}
+    </p>`}
     <div
       style="border: 1px solid black; padding: 5px 10px; background-color: ${color}; position: relative; cursor: pointer; transition: all 0.3s ease; flex: 1; display:flex; align-items: center; ${active
         ? ""
