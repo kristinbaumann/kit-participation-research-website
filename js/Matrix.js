@@ -15,7 +15,7 @@ export default function Matrix() {
 
   useEffect(() => {
     d3.dsv(";", BASE_URL + "/data/matrix_data_221121.csv").then((data) => {
-      // console.log("Raw data loaded:", data);
+      console.log("Raw data loaded:", data);
 
       // process data
       let processedData = data.map((d) => ({
@@ -258,13 +258,13 @@ function Box({
   const [state, setState] = useState(active ? "active_hover" : "default");
 
   const formattedType = type.toLowerCase().replace(/\s+/g, "_");
-  console.log(
-    "Item",
-    item,
-    item.includes("(for reseachers)") || item.includes("(for participants)")
-  );
+  // console.log(
+  //   "Item",
+  //   item,
+  //   item.includes("(for reseachers)") || item.includes("(for participants)")
+  // );
   let formattedItem =
-    item.includes("(for reseachers)") || item.includes("(for participants)")
+    item.includes("(for researchers)") || item.includes("(for participants)")
       ? item
           .toLowerCase()
           .replace("(", "")
@@ -278,7 +278,7 @@ function Box({
     formattedItem = formattedItem.slice(0, -1);
   }
   const imageFileName = `${formattedType}_${formattedItem}_${state}.svg`;
-  console.log("Image file name:", imageFileName);
+  // console.log("Image file name:", imageFileName);
 
   useEffect(() => {
     setState(active ? "active_hover" : "default");
