@@ -130,6 +130,9 @@ export default function Matrix() {
         .box:hover .box-content {
           opacity: 0.8;
         }
+        .box span {
+          line-height: 23px;
+        }
         .detail-content p.dynamic-text {
           font-weight: bold;
           font-size: 19px;
@@ -139,6 +142,7 @@ export default function Matrix() {
           .box span {
             padding-right: 0px !important;
             font-size: 15px !important;
+            line-height: 18px;
           }
           .detail-content p.dynamic-text {
             font-size: 15px !important;
