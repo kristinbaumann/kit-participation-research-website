@@ -126,14 +126,26 @@ export default function Matrix() {
       }
       @media (max-width: 768px) {
         .box span {
-          padding-right: 0px;
+          padding-right: 0px !important;
         }
         .box img {
           height: 40px;
         }
+        .level2 {
+          width: 95% !important;
+        }
+        .level3 {
+          width: 90% !important;
+        }
+        .level4 {
+          width: 85% !important;
+        }
       }
     </style>
-    <div style="display: flex; gap: 28px; flex-wrap: wrap; width: 100%;">
+    <div
+      class="level1"
+      style="display: flex; gap: 28px; flex-wrap: wrap; width: 100%;"
+    >
       ${level1Options.map(
         (option) =>
           html`
@@ -148,6 +160,7 @@ export default function Matrix() {
       )}
     </div>
     <div
+      class="level2"
       style="display: flex; gap: 28px; flex-wrap: wrap; width: 90%; margin: 20px auto 0 auto;"
     >
       ${level2Options &&
@@ -165,6 +178,7 @@ export default function Matrix() {
       )}
     </div>
     <div
+      class="level3"
       style="display: flex; gap: 28px; flex-wrap: wrap; width: 80%; margin: 20px auto 20px auto;"
     >
       ${level3Options &&
@@ -182,7 +196,8 @@ export default function Matrix() {
       )}
     </div>
     <div
-      style=" display: flex; flex-direction: row; gap: 12px; width: 70%; margin-left: auto; margin-right: auto;"
+      class="level4"
+      style=" display: flex; flex-direction: row; gap: 12px; width: 70%; margin: auto;"
     >
       ${level4Options &&
       level4Options.length > 0 &&
