@@ -5,6 +5,11 @@ const BASE_URL =
   "https://raw.githubusercontent.com/kristinbaumann/kit-participation-research-website/refs/heads/main/assets";
 
 const rawColors = ["#80C3B5", "#ACDFF4", "#D3C096"];
+const colors = {
+  "KIT researchers": rawColors[0],
+  "KIT policy level": rawColors[1],
+  "Participants in citizen dialogues": rawColors[2],
+};
 
 export default function Matrix() {
   const [data, setData] = useState(null);
@@ -58,12 +63,9 @@ export default function Matrix() {
   // get unique level 1 options from data as "stakeholder"
   const level1Key = "stakeholder";
   const level1Options = Array.from(new Set(data.map((d) => d[level1Key])));
-  const colors = level1Options.reduce(
-    (acc, option, i) => ({
-      ...acc,
-      [option]: rawColors[i % rawColors.length],
-    }),
-    {}
+  // sort level1Options based on rawColors order
+  level1Options.sort(
+    (a, b) => Object.keys(colors).indexOf(a) - Object.keys(colors).indexOf(b)
   );
 
   const level2Key = "impactLevel";
@@ -206,7 +208,7 @@ export default function Matrix() {
             <p
               style="font-weight: bold; font-size: 19px; line-height: 1.25; padding-bottom: 18px; border-bottom: 1px solid black;"
             >
-              ${detailItem.impactDescription}
+              ${detailItem.impactDescription.replaceAll("<br>", " ")}
             </p>
             <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
               Stakeholder
@@ -258,11 +260,6 @@ function Box({
   const [state, setState] = useState(active ? "active_hover" : "default");
 
   const formattedType = type.toLowerCase().replace(/\s+/g, "_");
-  // console.log(
-  //   "Item",
-  //   item,
-  //   item.includes("(for reseachers)") || item.includes("(for participants)")
-  // );
   let formattedItem =
     item.includes("(for researchers)") || item.includes("(for participants)")
       ? item
@@ -278,7 +275,6 @@ function Box({
     formattedItem = formattedItem.slice(0, -1);
   }
   const imageFileName = `${formattedType}_${formattedItem}_${state}.svg`;
-  // console.log("Image file name:", imageFileName);
 
   useEffect(() => {
     setState(active ? "active_hover" : "default");
@@ -286,7 +282,7 @@ function Box({
 
   return html`<div
     class="box"
-    style="flex: 1 1 0"
+    style="flex: 1 1 0; display: flex; flex-direction: column;"
     onMouseEnter=${() => {
       setState("active_hover");
     }}
@@ -299,7 +295,7 @@ function Box({
     ${withTypeLabel &&
     html`<p style="text-transform: uppercase; margin: 0;">${type}</p>`}
     <div
-      style="border: 1px solid black; padding: 10px; background-color: ${color}; position: relative; cursor: pointer; transition: all 0.3s ease; ${active
+      style="border: 1px solid black; padding: 5px 10px; background-color: ${color}; position: relative; cursor: pointer; transition: all 0.3s ease; flex: 1; display:flex; align-items: center; ${active
         ? ""
         : "opacity: 0.7;"}"
       onClick=${onClick}
