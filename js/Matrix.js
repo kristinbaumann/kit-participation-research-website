@@ -187,64 +187,66 @@ export default function Matrix() {
       class="level2"
       style="display: flex; gap: 28px; flex-wrap: wrap; width: 90%; margin: 20px auto 0 auto;"
     >
-      ${level2Options &&
-      level2Options.map(
-        (option) =>
-          html`
-            <${Box}
-              type="${level2Key.replace("impactLevel", "impact level")}"
-              item=${option}
-              color=${colors[level1]}
-              active=${level2 === option}
-              onClick=${() => setLevel2(option)}
-            />
-          `
-      )}
+      ${level2Options
+        ? level2Options.map(
+            (option) =>
+              html`
+                <${Box}
+                  type="${level2Key.replace("impactLevel", "impact level")}"
+                  item=${option}
+                  color=${colors[level1]}
+                  active=${level2 === option}
+                  onClick=${() => setLevel2(option)}
+                />
+              `
+          )
+        : html`<${EmptyLevel} type="impact level" />`}
     </div>
     <div
       class="level3"
       style="display: flex; gap: 28px; flex-wrap: wrap; width: 80%; margin: 20px auto 20px auto;"
     >
-      ${level3Options &&
-      level3Options.map(
-        (option) =>
-          html`
-            <${Box}
-              type="${level3Key}"
-              item=${option}
-              color=${colors[level1]}
-              active=${level3 === option}
-              onClick=${() => setLevel3(option)}
-            />
-          `
-      )}
-    </div>
-    <div
-      class="level4"
-      style=" display: flex; flex-direction: row; gap: 12px; width: 70%; margin: auto;"
-    >
-      ${level4Options &&
-      level4Options.length > 0 &&
-      html`<div style="flex: 1;">
-        <p class="label">Indicators</p>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          ${level4Options &&
-          level4Options.map(
+      ${level3Options
+        ? level3Options.map(
             (option) =>
               html`
                 <${Box}
-                  type="${level4Key}"
+                  type="${level3Key}"
                   item=${option}
                   color=${colors[level1]}
-                  active=${level4 === option}
-                  onClick=${() => setLevel4(option)}
-                  withIllustration=${false}
-                  withTypeLabel=${false}
+                  active=${level3 === option}
+                  onClick=${() => setLevel3(option)}
                 />
               `
-          )}
-        </div>
-      </div>`}
+          )
+        : html`<${EmptyLevel} type="${level3Key}" />`}
+    </div>
+    <div
+      class="level4"
+      style=" display: flex; flex-direction: row; gap: 12px; width: 70%; margin: auto; justify-content: center;"
+    >
+      ${level4Options && level4Options.length > 0
+        ? html`<div style="flex: 1;">
+            <p class="label">Indicators</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              ${level4Options &&
+              level4Options.map(
+                (option) =>
+                  html`
+                    <${Box}
+                      type="${level4Key}"
+                      item=${option}
+                      color=${colors[level1]}
+                      active=${level4 === option}
+                      onClick=${() => setLevel4(option)}
+                      withIllustration=${false}
+                      withTypeLabel=${false}
+                    />
+                  `
+              )}
+            </div>
+          </div>`
+        : html`<${EmptyLevel} type="Indicators" />`}
       ${level4 && detailItem
         ? html`<div
             style="flex: 1; background-color: ${colors[
@@ -302,7 +304,9 @@ export default function Matrix() {
               ${detailItem.impactSource}
             </p>
           </div>`
-        : html`<div style="flex:1; padding: 20px; "></div>`}
+        : html`<div style="flex:1; padding: 0 20px; display: flex;">
+            <${EmptyLevel} type="Indicator details" />
+          </div>`}
     </div>
   </div>`;
 }
@@ -368,5 +372,16 @@ function Box({
         style="position: absolute; right:6px; bottom:0; transition: all 0.3s ease;"
       />`}
     </div>
+  </div>`;
+}
+
+function EmptyLevel({ type }) {
+  return html`<div
+    style="flex: 1 1 0; display: flex; flex-direction: column; opacity: 1; cursor: not-allowed; justify-content: center;"
+  >
+    <p class="label">${type}</p>
+    <div
+      style="border: 1px dashed black; height: 100%; min-height: 33px;"
+    ></div>
   </div>`;
 }
