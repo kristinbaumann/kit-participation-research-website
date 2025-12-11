@@ -28,7 +28,8 @@ export default function Matrix() {
         stakeholder: d["Stakeholder"],
         impactLevel: d["Impact level"],
         impact: d["Impact"],
-        impactIndicator: d["Impact indicators SHORT"],
+        impactIndicatorShort: d["Impact indicators SHORT"],
+        impactIndicatorLong: d["Impact indicators LONG"],
         impactSource: d["Impact source"],
         impactDescription: d["Impact description"],
       }));
@@ -89,7 +90,7 @@ export default function Matrix() {
         )
       : null;
 
-  const level4Key = "impactIndicator";
+  const level4Key = "impactIndicatorShort";
   const level4Options =
     level1 && level2 && level3
       ? Array.from(
@@ -252,15 +253,26 @@ export default function Matrix() {
             class="detail-content"
           >
             <p class="label">Indicator (In detail)</p>
-            <p class="dynamic-text" style="margin-top: 0; margin-bottom: 18px;">
-              ${detailItem.impactIndicator}
-            </p>
+            <p
+              class="dynamic-text"
+              style="margin-top: 0; margin-bottom: 18px;"
+              dangerouslySetInnerHTML=${{
+                __html: detailItem.impactIndicatorLong.replaceAll(
+                  "<br>",
+                  "<br/>"
+                ),
+              }}
+            ></p>
             <p
               class="dynamic-text"
               style="padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
-            >
-              ${detailItem.impactDescription.replaceAll("<br>", " ")}
-            </p>
+              dangerouslySetInnerHTML=${{
+                __html: detailItem.impactDescription.replaceAll(
+                  "<br>",
+                  "<br/>"
+                ),
+              }}
+            ></p>
             <p class="label">Stakeholder</p>
             <p
               class="dynamic-text"
