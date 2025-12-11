@@ -11,6 +11,16 @@ const colors = {
   "Participants in citizen dialogues": rawColors[2],
 };
 
+// Sanitize HTML to prevent XSS attacks
+const sanitizeHTML = (dirty) => {
+  if (typeof window !== "undefined" && window.DOMPurify) {
+    return window.DOMPurify.sanitize(dirty);
+  }
+  // Fallback if DOMPurify is not loaded
+  console.warn("DOMPurify not loaded, returning unsanitized HTML");
+  return dirty;
+};
+
 export default function Matrix() {
   const [data, setData] = useState(null);
   const [level1, setLevel1] = useState(null);
@@ -20,7 +30,7 @@ export default function Matrix() {
 
   useEffect(() => {
     d3.dsv(";", BASE_URL + "/data/matrix_data_221121.csv").then((data) => {
-      console.log("Raw data loaded:", data);
+      // console.log("Raw data loaded:", data);
 
       // process data
       let processedData = data.map((d) => ({
@@ -259,9 +269,8 @@ export default function Matrix() {
               class="dynamic-text"
               style="margin-top: 0; margin-bottom: 18px;"
               dangerouslySetInnerHTML=${{
-                __html: detailItem.impactIndicatorLong.replaceAll(
-                  "<br>",
-                  "<br/>"
+                __html: sanitizeHTML(
+                  detailItem.impactIndicatorLong.replaceAll("<br>", "<br/>")
                 ),
               }}
             ></p>
@@ -269,9 +278,8 @@ export default function Matrix() {
               class="dynamic-text"
               style="padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
               dangerouslySetInnerHTML=${{
-                __html: detailItem.impactDescription.replaceAll(
-                  "<br>",
-                  "<br/>"
+                __html: sanitizeHTML(
+                  detailItem.impactDescription.replaceAll("<br>", "<br/>")
                 ),
               }}
             ></p>

@@ -19,7 +19,6 @@ function insertContainerInPage() {
 function createContainerDiv() {
   const containerDiv = document.createElement("div");
   containerDiv.id = "matrix_visualization_container";
-  // containerDiv.style.border = "1px solid #000";
   containerDiv.style.width = "100%";
   containerDiv.className = "full"; // to make it span the full width in OpenText
   return containerDiv;
@@ -30,7 +29,7 @@ function renderVis() {
     "matrix_visualization_container"
   );
   if (containerElement) {
-    console.log("Rendering Matrix visualization...");
+    // console.log("Rendering Matrix visualization...");
     renderComponent(html`<${Matrix} />`, containerElement);
   } else {
     console.error(
