@@ -171,7 +171,9 @@ export default function Matrix() {
       ${level4Options &&
       level4Options.length > 0 &&
       html`<div style="flex: 1;">
-        <p style="text-transform: uppercase; margin: 0;">Indicators</p>
+        <p style="text-transform: uppercase; margin: 0;font-size: 15px;">
+          Indicators
+        </p>
         <div style="display: flex; flex-direction: column; gap: 12px;">
           ${level4Options &&
           level4Options.map(
