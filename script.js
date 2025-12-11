@@ -19,10 +19,9 @@ function insertContainerInPage() {
 function createContainerDiv() {
   const containerDiv = document.createElement("div");
   containerDiv.id = "matrix_visualization_container";
-  containerDiv.style.marginBottom = "20px";
-  containerDiv.style.border = "1px solid #000";
-  containerDiv.style.width = "auto";
-  containerDiv.style.maxWidth = "100%";
+  // containerDiv.style.border = "1px solid #000";
+  containerDiv.style.width = "100%";
+  containerDiv.className = "full"; // to make it span the full width in OpenText
   return containerDiv;
 }
 

@@ -117,7 +117,6 @@ export default function Matrix() {
       : null;
 
   return html`<div style="font-family: Roboto; padding: 10px;">
-    <p>Matrix with ${data.length} rows</p>
     <div style="display: flex; gap: 28px; flex-wrap: wrap; width: 100%;">
       ${level1Options.map(
         (option) =>
