@@ -132,7 +132,7 @@ export default function Matrix() {
       )}
     </div>
     <div
-      style="display: flex; gap: 28px; flex-wrap: wrap; width: 80%; margin: 20px auto 0 auto;"
+      style="display: flex; gap: 28px; flex-wrap: wrap; width: 90%; margin: 20px auto 0 auto;"
     >
       ${level2Options &&
       level2Options.map(
@@ -149,7 +149,7 @@ export default function Matrix() {
       )}
     </div>
     <div
-      style="display: flex; gap: 28px; flex-wrap: wrap; width: 60%; margin: 20px auto 20px auto;"
+      style="display: flex; gap: 28px; flex-wrap: wrap; width: 80%; margin: 20px auto 20px auto;"
     >
       ${level3Options &&
       level3Options.map(
@@ -166,7 +166,7 @@ export default function Matrix() {
       )}
     </div>
     <div
-      style=" display: flex; flex-direction: row; gap: 12px; width: 70%; margin-left: auto;"
+      style=" display: flex; flex-direction: row; gap: 12px; width: 70%; margin-left: auto; margin-right: auto;"
     >
       ${level4Options &&
       level4Options.length > 0 &&
