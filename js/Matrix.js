@@ -130,9 +130,17 @@ export default function Matrix() {
         .box:hover .box-content {
           opacity: 0.8;
         }
+        .detail-content p.dynamic-text {
+          font-weight: bold;
+          font-size: 19px;
+          line-height: 1.25;
+        }
         @media (max-width: 768px) {
           .box span {
             padding-right: 0px !important;
+            font-size: 15px !important;
+          }
+          .detail-content p.dynamic-text {
             font-size: 15px !important;
           }
           .box img {
@@ -237,39 +245,43 @@ export default function Matrix() {
             style="flex: 1; background-color: ${colors[
               level1
             ]}; padding: 20px; margin-top: 21px;"
+            class="detail-content"
           >
             <p class="label">Indicator (In detail)</p>
-            <p
-              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; margin-bottom: 18px;"
-            >
+            <p class="dynamic-text" style="margin-top: 0; margin-bottom: 18px;">
               ${detailItem.impactIndicator}
             </p>
             <p
-              style="font-weight: bold; font-size: 19px; line-height: 1.25; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
+              class="dynamic-text"
+              style="padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.impactDescription.replaceAll("<br>", " ")}
             </p>
             <p class="label">Stakeholder</p>
             <p
-              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
+              class="dynamic-text"
+              style="margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.stakeholder}
             </p>
             <p class="label">Impact Level</p>
             <p
-              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
+              class="dynamic-text"
+              style="margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.impactLevel}
             </p>
             <p class="label">Impact</p>
             <p
-              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
+              class="dynamic-text"
+              style="margin-top: 0; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.impact}
             </p>
             <p class="label">Impact Source</p>
             <p
-              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; margin-bottom:0; padding-bottom: 18px; border-bottom: 1px solid black;"
+              class="dynamic-text"
+              style="margin-top: 0; margin-bottom:0; padding-bottom: 18px; border-bottom: 1px solid black;"
             >
               ${detailItem.impactSource}
             </p>
@@ -323,10 +335,7 @@ function Box({
       }
     }}
   >
-    ${withTypeLabel &&
-    html`<p style="text-transform: uppercase; margin: 0;font-size: 15px;">
-      ${type}
-    </p>`}
+    ${withTypeLabel && html`<p class="label">${type}</p>`}
     <div
       class="box-content"
       style="border: 1px solid black; padding: 5px 10px; background-color: ${color}; position: relative; cursor: pointer; transition: all 0.3s ease; flex: 1; display:flex; align-items: center; ${active
