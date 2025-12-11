@@ -117,6 +117,22 @@ export default function Matrix() {
       : null;
 
   return html`<div style="font-family: Roboto; padding: 10px;">
+    <style>
+      .box .box-content {
+        opacity: 0.6;
+      }
+      .box:hover .box-content {
+        opacity: 0.8;
+      }
+      @media (max-width: 768px) {
+        .box span {
+          padding-right: 0px;
+        }
+        .box img {
+          height: 40px;
+        }
+      }
+    </style>
     <div style="display: flex; gap: 28px; flex-wrap: wrap; width: 100%;">
       ${level1Options.map(
         (option) =>
@@ -298,9 +314,10 @@ function Box({
       ${type}
     </p>`}
     <div
+      class="box-content"
       style="border: 1px solid black; padding: 5px 10px; background-color: ${color}; position: relative; cursor: pointer; transition: all 0.3s ease; flex: 1; display:flex; align-items: center; ${active
-        ? ""
-        : "opacity: 0.7;"}"
+        ? "opacity: 1;"
+        : ""}"
       onClick=${onClick}
     >
       <span style="font-size: 19px; font-weight: bold; padding-right: 80px;"
