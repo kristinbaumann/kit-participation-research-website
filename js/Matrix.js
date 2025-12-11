@@ -15,7 +15,7 @@ export default function Matrix() {
 
   useEffect(() => {
     d3.dsv(";", BASE_URL + "/data/matrix_data_221121.csv").then((data) => {
-      console.log("Raw data loaded:", data);
+      // console.log("Raw data loaded:", data);
 
       // process data
       let processedData = data.map((d) => ({
@@ -39,7 +39,7 @@ export default function Matrix() {
     return html`<div>Loading matrix data...</div>`;
   }
 
-  console.log("Matrix data loaded:", data);
+  // console.log("Matrix data loaded:", data);
   useEffect(() => {
     setLevel2(null);
     setLevel3(null);
@@ -74,7 +74,6 @@ export default function Matrix() {
         )
       )
     : null;
-  console.log("Filtered level 2 options:", level2Options);
 
   const level3Key = "impact";
   const level3Options =
@@ -87,7 +86,6 @@ export default function Matrix() {
           )
         )
       : null;
-  console.log("Filtered level 3 options:", level3Options);
 
   const level4Key = "impactIndicator";
   const level4Options =
@@ -105,7 +103,6 @@ export default function Matrix() {
           )
         )
       : null;
-  console.log("Filtered level 4 options:", level4Options);
   const detailItem =
     level1 && level2 && level3 && level4
       ? data.find(
@@ -116,7 +113,6 @@ export default function Matrix() {
             d[level4Key] === level4
         )
       : null;
-  console.log("Detail item:", detailItem);
 
   return html`<div style="font-family: Roboto; padding: 10px;">
     <p>Matrix with ${data.length} rows</p>
@@ -262,15 +258,27 @@ function Box({
   const [state, setState] = useState(active ? "active_hover" : "default");
 
   const formattedType = type.toLowerCase().replace(/\s+/g, "_");
-  // .replace("impactlevel", "impact_level");
-  let formattedItem = item
-    .toLowerCase()
-    .replace(/\([^)]*\)/g, "")
-    .replace(/\s+/g, "_");
+  console.log(
+    "Item",
+    item,
+    item.includes("(for reseachers)") || item.includes("(for participants)")
+  );
+  let formattedItem =
+    item.includes("(for reseachers)") || item.includes("(for participants)")
+      ? item
+          .toLowerCase()
+          .replace("(", "")
+          .replace(")", "")
+          .replace(/\s+/g, "_")
+      : item
+          .toLowerCase()
+          .replace(/\([^)]*\)/g, "")
+          .replace(/\s+/g, "_");
   if (formattedItem.endsWith("_")) {
     formattedItem = formattedItem.slice(0, -1);
   }
   const imageFileName = `${formattedType}_${formattedItem}_${state}.svg`;
+  console.log("Image file name:", imageFileName);
 
   useEffect(() => {
     setState(active ? "active_hover" : "default");
