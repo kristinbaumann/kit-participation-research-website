@@ -23,7 +23,7 @@ export default function Matrix() {
         stakeholder: d["Stakeholder"],
         impactLevel: d["Impact level"],
         impact: d["Impact"],
-        impactIndicators: d["Impact indicators SHORT"],
+        impactIndicator: d["Impact indicators SHORT"],
         impactSource: d["Impact source"],
         impactDescription: d["Impact description"],
       }));
@@ -89,7 +89,7 @@ export default function Matrix() {
       : null;
   console.log("Filtered level 3 options:", level3Options);
 
-  const level4Key = "impactIndicators";
+  const level4Key = "impactIndicator";
   const level4Options =
     level1 && level2 && level3
       ? Array.from(
@@ -106,6 +106,17 @@ export default function Matrix() {
         )
       : null;
   console.log("Filtered level 4 options:", level4Options);
+  const detailItem =
+    level1 && level2 && level3 && level4
+      ? data.find(
+          (d) =>
+            d[level1Key] === level1 &&
+            d[level2Key] === level2 &&
+            d[level3Key] === level3 &&
+            d[level4Key] === level4
+        )
+      : null;
+  console.log("Detail item:", detailItem);
 
   return html`<div style="font-family: Roboto; padding: 10px;">
     <p>Matrix with ${data.length} rows</p>
@@ -157,10 +168,12 @@ export default function Matrix() {
           `
       )}
     </div>
-    <div style=" display: flex; flex-direction: row; gap: 12px;">
+    <div
+      style=" display: flex; flex-direction: row; gap: 12px; width: 70%; margin-left: auto;"
+    >
       ${level4Options &&
       level4Options.length > 0 &&
-      html` <div>
+      html`<div style="flex: 1;">
         <p style="text-transform: uppercase; margin: 0;">Indicators</p>
         <div style="display: flex; flex-direction: column; gap: 12px;">
           ${level4Options &&
@@ -180,12 +193,59 @@ export default function Matrix() {
           )}
         </div>
       </div>`}
-      ${level4 &&
-      html`<div
-        style="background-color: ${colors[level1]}; padding: 20px; width: 100%;"
-      >
-        Level 4 Details
-      </div>`}
+      ${level4 && detailItem
+        ? html`<div
+            style="flex: 1; background-color: ${colors[
+              level1
+            ]}; padding: 20px; margin-top: 18px;"
+          >
+            <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
+              Indicator (In detail)
+            </p>
+            <p
+              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; margin-bottom: 18px;"
+            >
+              ${detailItem.impactIndicator}
+            </p>
+            <p
+              style="font-weight: bold; font-size: 19px; line-height: 1.25; padding-bottom: 18px; border-bottom: 1px solid black;"
+            >
+              ${detailItem.impactDescription}
+            </p>
+            <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
+              Stakeholder
+            </p>
+            <p
+              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; border-bottom: 1px solid black;"
+            >
+              ${detailItem.stakeholder}
+            </p>
+            <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
+              Impact Level
+            </p>
+            <p
+              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; border-bottom: 1px solid black;"
+            >
+              ${detailItem.impactLevel}
+            </p>
+            <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
+              Impact
+            </p>
+            <p
+              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; padding-bottom: 18px; border-bottom: 1px solid black;"
+            >
+              ${detailItem.impact}
+            </p>
+            <p style="text-transform: uppercase; font-size: 15px; margin: 0;">
+              Impact Source
+            </p>
+            <p
+              style="font-weight: bold; font-size: 19px; line-height: 1.25; margin-top: 0; margin-bottom:0; padding-bottom: 18px; border-bottom: 1px solid black;"
+            >
+              ${detailItem.impactSource}
+            </p>
+          </div>`
+        : html`<div style="flex:1; padding: 20px; "></div>`}
     </div>
   </div>`;
 }
@@ -218,7 +278,7 @@ function Box({
 
   return html`<div
     class="box"
-    style="flex-grow: 1;"
+    style="flex: 1 1 0"
     onMouseEnter=${() => {
       setState("active_hover");
     }}
