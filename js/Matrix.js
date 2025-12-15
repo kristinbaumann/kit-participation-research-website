@@ -29,7 +29,7 @@ export default function Matrix() {
   const [level4, setLevel4] = useState(null);
 
   useEffect(() => {
-    d3.dsv(";", BASE_URL + "/data/matrix_data_221121.csv").then((data) => {
+    d3.dsv(";", BASE_URL + "/data/matrix_data.csv").then((data) => {
       // console.log("Raw data loaded:", data);
 
       // process data
