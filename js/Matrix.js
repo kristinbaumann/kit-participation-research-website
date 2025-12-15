@@ -57,7 +57,7 @@ export default function Matrix() {
 
   // console.log("Matrix data loaded:", data);
   useEffect(() => {
-    setLevel2(null);
+    // setLevel2(null);
     setLevel3(null);
     setLevel4(null);
   }, [level1]);
