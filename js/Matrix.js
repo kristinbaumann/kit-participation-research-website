@@ -130,8 +130,13 @@ export default function Matrix() {
   return html`<div style="font-family: Roboto; padding: 10px;">
     <style>
       #matrix_visualization_container {
+        p,
+        span {
+          hyphens: none !important;
+        }
+
         .box .box-content {
-          opacity: 0.6;
+          opacity: 0.4;
         }
         .label {
           text-transform: uppercase;
