@@ -1,8 +1,13 @@
 import { html } from "./preact-htm.js";
 import { useState, useEffect } from "./preact-htm.js";
 
+const NEXTCLOUD_CSV_URL =
+  "https://bwsyncandshare.kit.edu/s/HHsFxPMrDtrXWHr/download";
 const BASE_URL =
   "https://raw.githubusercontent.com/kristinbaumann/kit-participation-research-website/refs/heads/main/assets";
+const LOCAL_CSV_URL = BASE_URL + "/data/matrix_data.csv";
+
+const DATA_URL = NEXTCLOUD_CSV_URL;
 
 const rawColors = ["#80C3B5", "#ACDFF4", "#D3C096"];
 const colors = {
@@ -28,8 +33,10 @@ export default function Matrix() {
   const [level3, setLevel3] = useState(null);
   const [level4, setLevel4] = useState(null);
 
+  console.log("Rendering Matrix component from", DATA_URL);
+
   useEffect(() => {
-    d3.dsv(";", BASE_URL + "/data/matrix_data.csv").then((data) => {
+    d3.dsv(";", DATA_URL).then((data) => {
       // console.log("Raw data loaded:", data);
 
       // process data
@@ -76,15 +83,15 @@ export default function Matrix() {
   const level1Options = Array.from(new Set(data.map((d) => d[level1Key])));
   // sort level1Options based on rawColors order
   level1Options.sort(
-    (a, b) => Object.keys(colors).indexOf(a) - Object.keys(colors).indexOf(b)
+    (a, b) => Object.keys(colors).indexOf(a) - Object.keys(colors).indexOf(b),
   );
 
   const level2Key = "impactLevel";
   const level2Options = level1
     ? Array.from(
         new Set(
-          data.filter((d) => d[level1Key] === level1).map((d) => d[level2Key])
-        )
+          data.filter((d) => d[level1Key] === level1).map((d) => d[level2Key]),
+        ),
       )
     : null;
 
@@ -95,8 +102,8 @@ export default function Matrix() {
           new Set(
             data
               .filter((d) => d[level1Key] === level1 && d[level2Key] === level2)
-              .map((d) => d[level3Key])
-          )
+              .map((d) => d[level3Key]),
+          ),
         )
       : null;
 
@@ -110,10 +117,10 @@ export default function Matrix() {
                 (d) =>
                   d[level1Key] === level1 &&
                   d[level2Key] === level2 &&
-                  d[level3Key] === level3
+                  d[level3Key] === level3,
               )
-              .map((d) => d[level4Key])
-          )
+              .map((d) => d[level4Key]),
+          ),
         )
       : null;
   const detailItem =
@@ -123,7 +130,7 @@ export default function Matrix() {
             d[level1Key] === level1 &&
             d[level2Key] === level2 &&
             d[level3Key] === level3 &&
-            d[level4Key] === level4
+            d[level4Key] === level4,
         )
       : null;
 
@@ -186,16 +193,15 @@ export default function Matrix() {
       style="display: flex; gap: 28px; flex-wrap: wrap; width: 100%;"
     >
       ${level1Options.map(
-        (option) =>
-          html`
-            <${Box}
-              type="${level1Key}"
-              item=${option}
-              color=${colors[option]}
-              active=${level1 === option}
-              onClick=${() => setLevel1(option)}
-            />
-          `
+        (option) => html`
+          <${Box}
+            type="${level1Key}"
+            item=${option}
+            color=${colors[option]}
+            active=${level1 === option}
+            onClick=${() => setLevel1(option)}
+          />
+        `,
       )}
     </div>
     <div
@@ -204,16 +210,15 @@ export default function Matrix() {
     >
       ${level2Options
         ? level2Options.map(
-            (option) =>
-              html`
-                <${Box}
-                  type="${level2Key.replace("impactLevel", "impact level")}"
-                  item=${option}
-                  color=${colors[level1]}
-                  active=${level2 === option}
-                  onClick=${() => setLevel2(option)}
-                />
-              `
+            (option) => html`
+              <${Box}
+                type="${level2Key.replace("impactLevel", "impact level")}"
+                item=${option}
+                color=${colors[level1]}
+                active=${level2 === option}
+                onClick=${() => setLevel2(option)}
+              />
+            `,
           )
         : html`<${EmptyLevel} type="impact level" />`}
     </div>
@@ -223,16 +228,15 @@ export default function Matrix() {
     >
       ${level3Options
         ? level3Options.map(
-            (option) =>
-              html`
-                <${Box}
-                  type="${level3Key}"
-                  item=${option}
-                  color=${colors[level1]}
-                  active=${level3 === option}
-                  onClick=${() => setLevel3(option)}
-                />
-              `
+            (option) => html`
+              <${Box}
+                type="${level3Key}"
+                item=${option}
+                color=${colors[level1]}
+                active=${level3 === option}
+                onClick=${() => setLevel3(option)}
+              />
+            `,
           )
         : html`<${EmptyLevel} type="${level3Key}" />`}
     </div>
@@ -246,18 +250,17 @@ export default function Matrix() {
             <div style="display: flex; flex-direction: column; gap: 12px;">
               ${level4Options &&
               level4Options.map(
-                (option) =>
-                  html`
-                    <${Box}
-                      type="${level4Key}"
-                      item=${option}
-                      color=${colors[level1]}
-                      active=${level4 === option}
-                      onClick=${() => setLevel4(option)}
-                      withIllustration=${false}
-                      withTypeLabel=${false}
-                    />
-                  `
+                (option) => html`
+                  <${Box}
+                    type="${level4Key}"
+                    item=${option}
+                    color=${colors[level1]}
+                    active=${level4 === option}
+                    onClick=${() => setLevel4(option)}
+                    withIllustration=${false}
+                    withTypeLabel=${false}
+                  />
+                `,
               )}
             </div>
           </div>`
@@ -275,7 +278,7 @@ export default function Matrix() {
               style="margin-top: 0; margin-bottom: 18px;"
               dangerouslySetInnerHTML=${{
                 __html: sanitizeHTML(
-                  detailItem.impactIndicatorLong.replaceAll("<br>", "<br/>")
+                  detailItem.impactIndicatorLong.replaceAll("<br>", "<br/>"),
                 ),
               }}
             ></p>
@@ -284,7 +287,7 @@ export default function Matrix() {
               style="padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid black;"
               dangerouslySetInnerHTML=${{
                 __html: sanitizeHTML(
-                  detailItem.impactDescription.replaceAll("<br>", "<br/>")
+                  detailItem.impactDescription.replaceAll("<br>", "<br/>"),
                 ),
               }}
             ></p>
