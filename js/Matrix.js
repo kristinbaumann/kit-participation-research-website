@@ -1,13 +1,8 @@
 import { html } from "./preact-htm.js";
 import { useState, useEffect } from "./preact-htm.js";
 
-const NEXTCLOUD_CSV_URL =
-  "https://bwsyncandshare.kit.edu/s/HHsFxPMrDtrXWHr/download";
 const BASE_URL =
   "https://raw.githubusercontent.com/kristinbaumann/kit-participation-research-website/refs/heads/main/assets";
-const LOCAL_CSV_URL = BASE_URL + "/data/matrix_data.csv";
-
-const DATA_URL = NEXTCLOUD_CSV_URL;
 
 const rawColors = ["#80C3B5", "#ACDFF4", "#D3C096"];
 const colors = {
@@ -33,10 +28,8 @@ export default function Matrix() {
   const [level3, setLevel3] = useState(null);
   const [level4, setLevel4] = useState(null);
 
-  console.log("Rendering Matrix component from", DATA_URL);
-
   useEffect(() => {
-    d3.dsv(";", DATA_URL).then((data) => {
+    d3.dsv(";", BASE_URL + "/data/matrix_data.csv").then((data) => {
       // console.log("Raw data loaded:", data);
 
       // process data
